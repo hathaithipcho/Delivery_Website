@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ส่งตรง เดลิเวอรี่ (FastDrop Delivery) — ส่งพัสดุด่วน คำนวณราคาทันที</title>
+  
+  <!-- ฟอนต์ภาษาไทยจาก Google Fonts (Prompt สำหรับหัวข้อ/ตัวเลข, Sarabun สำหรับเนื้อหา) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- ลิงก์ไฟล์ CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       ส่วนที่ 1: หน้าแรก (Hero Section)
+       - วิดีโอพื้นหลังเต็มจอ พร้อม Dark Overlay
+       - Navbar ติดด้านบน พร้อมระบบ Login
+       - ปุ่มเลื่อนลงเพื่อสั่งส่งของ
+       ============================================================ -->
+  <header class="hero" id="hero">
+    <!-- พื้นหลังวิดีโอ (ถ้าไม่มีวิดีโอหรือโหลดไม่ผ่าน จะแสดง Background Gradient อัตโนมัติ) -->
+    <div class="video-container" id="videoContainer">
+      <video id="bgVideo" autoplay muted loop playsinline preload="auto" poster="images/poster.jpg" aria-hidden="true">
+        <source src="video/bg.mp4" type="video/mp4">
+        <!-- กรณีเบราว์เซอร์ไม่รองรับ HTML5 Video -->
+      </video>
+      <div class="video-overlay"></div>
+    </div>
+
+    <!-- Navigation Bar ติดด้านบน -->
+    <nav class="navbar" id="navbar">
+      <div class="nav-content">
+        <a href="#hero" class="brand-logo">
+          <span class="logo-icon">⚡</span>
+          <span class="logo-text">ส่งตรง<span>.Express</span></span>
+        </a>
+
+        <!-- ส่วนผู้ใช้งานและปุ่ม Login ทางขวาบน -->
+        <div class="nav-user-area" id="navUserArea">
+          <span class="user-greeting" id="userGreeting" hidden></span>
+          <button class="btn btn-primary" id="loginNavBtn">เข้าสู่ระบบ</button>
+          <button class="btn btn-outline" id="logoutNavBtn" hidden>ออกจากระบบ</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Content ข้อความหลักตรงกลางหน้า -->
+    <div class="hero-content">
+      <div class="hero-badge">🚀 บริการส่งด่วนฉับไว ปักหมุดคำนวณราคาทันที</div>
+      <h1 class="hero-title">ส่งพัสดุถึงมือผู้รับ<br><span class="highlight-text">รวดเร็ว ปลอดภัย ตลอด 24 ชม.</span></h1>
+      <p class="hero-desc">
+        เช็คค่าส่งง่ายๆ แค่ปักหมุดบนแผนที่ ราคาชัดเจนตามระยะทางจริง ไม่มีบวกเพิ่ม<br>
+        รองรับทั้งซองเอกสาร กล่องพัสดุ และสินค้าขนาดใหญ่
+      </p>
+      
+      <!-- ปุ่มเลื่อนลงไปส่วนที่ 2 (ฟอร์มสั่งส่งของ) -->
+      <a href="#orderSection" class="scroll-down-btn" id="scrollDownBtn" aria-label="เลื่อนลงเพื่อสั่งส่งของ">
+        <span class="scroll-text">เลื่อนลงเพื่อสั่งส่งของ</span>
+        <svg class="scroll-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v14M19 12l-7 7-7-7"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       ส่วนที่ 2: ฟอร์มสั่งส่งของ (Order Section)
+       - การ์ดใหญ่ใบเดียว แบ่ง 2 คอลัมน์ (ซ้าย: ฟอร์ม, ขวา: แผนที่)
+       - แถบสรุปราคาเต็มความกว้างด้านล่าง
+       ============================================================ -->
+  <main class="order-section" id="orderSection">
+    <div class="container">
+      
+      <!-- หัวข้อส่วนสั่งของ -->
+      <div class="section-header">
+        <div class="section-tag">สร้างคำสั่งจัดส่ง</div>
+        <h2 class="section-title">ส่งของ → ลูกค้า</h2>
+        <p class="section-subtitle">ระบุจุดรับ-จุดส่ง หรือคลิกปักหมุดบนแผนที่เพื่อคำนวณระยะทางและราคาค่าจัดส่งแบบ Real-time</p>
+      </div>
+
+      <!-- การ์ดใหญ่ใบเดียว (Single Main Card) -->
+      <div class="order-card">
+        
+        <div class="order-columns">
+          
+          <!-- คอลัมน์ซ้าย: ฟอร์มกรอกข้อมูล -->
+          <div class="order-form-col">
+            <h3 class="col-title">
+              <span class="step-num">1</span> ข้อมูลสถานที่และผู้รับ
+            </h3>
+
+            <div class="form-group">
+              <label for="pickupInput">
+                <span class="pin-badge pickup-badge">A</span>
+                จุดรับ (ที่อยู่ที่ไปรับของ) <span class="required">*</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="text" id="pickupInput" class="form-control" placeholder="ค้นหาจุดรับ หรือคลิกบนแผนที่..." autocomplete="off">
+                <button type="button" class="btn-input-locate" id="pickupLocateBtn" title="ใช้พิกัดปัจจุบันของฉัน">📍 ฉันอยู่นี่</button>
+              </div>
+              <small class="input-hint">คลิกบนแผนที่ครั้งแรกเพื่อปักหมุดจุดรับ หรือพิมพ์ค้นหา</small>
+            </div>
+
+            <div class="form-group">
+              <label for="dropoffInput">
+                <span class="pin-badge dropoff-badge">B</span>
+                จุดส่ง (ที่อยู่ปลายทาง) <span class="required">*</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="text" id="dropoffInput" class="form-control" placeholder="ค้นหาจุดส่ง หรือคลิกบนแผนที่..." autocomplete="off">
+              </div>
+              <small class="input-hint">คลิกบนแผนที่ครั้งที่สองเพื่อปักหมุดจุดส่ง หรือพิมพ์ค้นหา</small>
+            </div>
+
+            <!-- ข้อมูลผู้รับ (ชื่อและเบอร์โทร) -->
+            <div class="recipient-grid">
+              <div class="form-group">
+                <label for="recipientName">ชื่อผู้รับ <span class="required">*</span></label>
+                <input type="text" id="recipientName" class="form-control" placeholder="ชื่อ-นามสกุล ผู้รับ">
+              </div>
+              <div class="form-group">
+                <label for="recipientPhone">เบอร์โทรผู้รับ <span class="required">*</span></label>
+                <input type="tel" id="recipientPhone" class="form-control" placeholder="เช่น 0812345678" maxlength="10">
+              </div>
+            </div>
+
+            <!-- ปุ่มเลือกขนาดพัสดุ 3 ปุ่ม (S, M, L) -->
+            <div class="parcel-size-group">
+              <label class="parcel-label">
+                <span class="step-num">2</span> เลือกขนาดพัสดุ <span class="required">*</span>
+              </label>
+              
+              <div class="size-buttons" role="radiogroup" aria-label="เลือกขนาดพัสดุ">
+                
+                <!-- ขนาด S -->
+                <button type="button" class="size-btn" data-size="S" role="radio" aria-checked="false">
+                  <div class="size-header">
+                    <span class="size-name">ขนาด S</span>
+                    <span class="size-badge">฿30</span>
+                  </div>
+                  <p class="size-desc">ซองเอกสาร / ของชิ้นเล็ก</p>
+                  <span class="size-weight">ไม่เกิน 1 กก.</span>
+                </button>
+
+                <!-- ขนาด M (ค่าเริ่มต้น) -->
+                <button type="button" class="size-btn active" data-size="M" role="radio" aria-checked="true">
+                  <div class="size-header">
+                    <span class="size-name">ขนาด M</span>
+                    <span class="size-badge">฿50</span>
+                  </div>
+                  <p class="size-desc">กล่องเล็ก / อาหาร / เสื้อผ้า</p>
+                  <span class="size-weight">ไม่เกิน 5 กก.</span>
+                </button>
+
+                <!-- ขนาด L -->
+                <button type="button" class="size-btn" data-size="L" role="radio" aria-checked="false">
+                  <div class="size-header">
+                    <span class="size-name">ขนาด L</span>
+                    <span class="size-badge">฿80</span>
+                  </div>
+                  <p class="size-desc">กล่องใหญ่ / เครื่องใช้ไฟฟ้า</p>
+                  <span class="size-weight">ไม่เกิน 15 กก.</span>
+                </button>
+
+              </div>
+            </div>
+
+          </div>
+
+          <!-- คอลัมน์ขวา: แผนที่ Google Map พร้อมระบบปักหมุด -->
+          <div class="order-map-col">
+            <div class="map-header">
+              <h3 class="col-title">
+                <span class="step-num">3</span> ปักหมุดบนแผนที่
+              </h3>
+              <div class="map-actions">
+                <button type="button" class="btn-map-action" id="clearPinsBtn" title="ล้างหมุดและเส้นทาง">
+                  🧹 ล้างหมุด
+                </button>
+              </div>
+            </div>
+
+            <!-- ข้อความแนะนำวิธีปักหมุดตามสถานะ -->
+            <div class="pin-status-bar" id="pinStatusBar">
+              <span class="status-dot"></span>
+              <span id="pinStatusText">คลิกบนแผนที่เพื่อปักหมุด <strong>"จุดรับ"</strong> (จุดแรก)</span>
+            </div>
+
+            <!-- กรอบแผนที่ (Map Canvas Wrapper) -->
+            <div class="map-wrapper">
+              <div id="map" class="map-view"></div>
+
+              <!-- กล่องแจ้งเตือนเมื่อยังไม่ได้ใส่ Google Maps API Key หรือเกิดข้อผิดพลาด -->
+              <div id="apiKeyNotice" class="api-key-notice" hidden>
+                <div class="notice-icon">🗺️</div>
+                <h4>Google Maps JavaScript API</h4>
+                <p>โปรดใส่ <strong>API Key</strong> ของคุณในไฟล์ <code>js/script.js</code> เพื่อใช้งานแผนที่เต็มรูปแบบ:</p>
+                <div class="code-box">const GOOGLE_MAPS_API_KEY = "ใส่_API_KEY_ที่นี่";</div>
+                <div class="notice-manual-tip">
+                  💡 <strong>โหมดทดลอง:</strong> คุณสามารถพิมพ์ชื่อสถานที่ในช่อง หรือคลิกปุ่มด้านล่างเพื่อสุ่มพิกัดทดสอบการคำนวณราคาได้ทันที
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm" id="btnDemoLocations">
+                  🎯 จำลองปักหมุดสยาม → จตุจักร (ทดสอบคำนวณราคา)
+                </button>
+              </div>
+
+              <!-- Loading overlay เมื่อกำลังคำนวณเส้นทาง -->
+              <div id="mapLoader" class="map-loader" hidden>
+                <div class="spinner"></div>
+                <span>กำลังคำนวณระยะทางและเส้นทาง...</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div> <!-- /.order-columns -->
+
+        <!-- แถบสรุปราคา (ใต้ฟอร์มและแผนที่ เต็มความกว้าง) -->
+        <div class="pricing-summary-bar">
+          <div class="pricing-items-wrapper">
+            
+            <div class="pricing-item">
+              <div class="pricing-label">ขนาดพัสดุที่เลือก</div>
+              <div class="pricing-value">
+                <span id="sumSizeName">ขนาด M</span>
+                <span class="price-chip" id="sumSizePrice">30 บาท</span>
+              </div>
+              <div class="pricing-sub" id="sumSizeDesc">กล่องเล็ก / เสื้อผ้า (ไม่เกิน 5 กก.)</div>
+            </div>
+
+            <div class="pricing-divider"></div>
+
+            <div class="pricing-item">
+              <div class="pricing-label">ระยะทางคำนวณได้</div>
+              <div class="pricing-value">
+                <span id="sumDistanceText">0.0 กม.</span>
+                <span class="price-chip" id="sumDistancePrice">0 บาท</span>
+              </div>
+              <div class="pricing-sub">ค่าระยะทาง 8 บาท / กม.</div>
+            </div>
+
+            <div class="pricing-divider"></div>
+
+            <div class="pricing-item total-item">
+              <div class="pricing-label">ราคารวมทั้งสิ้น</div>
+              <div class="total-price-wrap">
+                <span class="total-currency">฿</span>
+                <span class="total-number" id="sumTotalPrice">50</span>
+              </div>
+              <div class="pricing-sub total-sub">รวมภาษีและค่าบริการแล้ว</div>
+            </div>
+
+          </div>
+        </div> <!-- /.pricing-summary-bar -->
+
+        <!-- ข้อความแจ้งเตือน Error รวมของฟอร์ม (ถ้ามี) -->
+        <div id="orderFormAlert" class="form-alert" role="alert" hidden></div>
+
+        <!-- ปุ่มควบคุมด้านล่างสุด -->
+        <div class="order-actions">
+          <button type="button" class="btn btn-cancel" id="btnResetOrder">
+            ล้างข้อมูลทั้งหมด
+          </button>
+          <button type="button" class="btn btn-submit-order" id="btnConfirmOrder">
+            <span>ยืนยันการสั่งส่ง</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+
+      </div> <!-- /.order-card -->
+
+    </div>
+  </main>
+
+  <!-- ============================================================
+       Modal 1: ระบบเข้าสู่ระบบ / สมัครสมาชิก (Auth Modal)
+       ============================================================ -->
+  <div class="modal-backdrop" id="authModal" role="dialog" aria-modal="true" aria-labelledby="tabLogin" hidden>
+    <div class="modal-card">
+      <button type="button" class="modal-close-btn" id="closeAuthBtn" aria-label="ปิดหน้าต่าง">×</button>
+      
+      <div class="auth-header">
+        <h3 class="auth-title" id="authModalTitle">เข้าสู่ระบบผู้ใช้งาน</h3>
+        <p class="auth-subtitle">เข้าสู่ระบบเพื่อยืนยันคำสั่งส่งและติดตามพัสดุ</p>
+      </div>
+
+      <!-- สลับแท็บ เข้าสู่ระบบ / สมัครสมาชิก -->
+      <div class="auth-tabs" role="tablist">
+        <button type="button" role="tab" class="auth-tab active" id="tabLogin" data-mode="login" aria-selected="true">
+          เข้าสู่ระบบ
+        </button>
+        <button type="button" role="tab" class="auth-tab" id="tabRegister" data-mode="register" aria-selected="false">
+          สมัครสมาชิก
+        </button>
+      </div>
+
+      <!-- ฟอร์ม Auth -->
+      <form id="authForm" novalidate>
+        <!-- ช่องชื่อ (แสดงเฉพาะตอนสมัครสมาชิก) -->
+        <div class="form-group" id="nameFieldGroup" hidden>
+          <label for="authName">ชื่อ-นามสกุล <span class="required">*</span></label>
+          <input type="text" id="authName" class="form-control" placeholder="เช่น สมชาย ใจดี" autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label for="authEmail">อีเมล <span class="required">*</span></label>
+          <input type="email" id="authEmail" class="form-control" placeholder="name@example.com" autocomplete="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="authPassword">รหัสผ่าน (อย่างน้อย 6 ตัวอักษร) <span class="required">*</span></label>
+          <input type="password" id="authPassword" class="form-control" placeholder="••••••••" autocomplete="current-password" minlength="6" required>
+        </div>
+
+        <!-- ข้อความ Error ภาษาไทย -->
+        <div class="auth-error-msg" id="authErrorMsg" role="alert"></div>
+
+        <button type="submit" class="btn btn-auth-submit" id="authSubmitBtn">
+          เข้าสู่ระบบ
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       Modal 2: หน้าต่างสรุปออเดอร์เมื่อยืนยันสำเร็จ (Order Summary Modal)
+       ============================================================ -->
+  <div class="modal-backdrop" id="orderSummaryModal" role="dialog" aria-modal="true" aria-labelledby="orderSummaryTitle" hidden>
+    <div class="modal-card modal-card-lg">
+      <button type="button" class="modal-close-btn" id="closeOrderSummaryBtn" aria-label="ปิดหน้าต่าง">×</button>
+      
+      <div class="order-success-icon">🎉</div>
+      <h3 class="auth-title" id="orderSummaryTitle">สรุปคำสั่งจัดส่งพัสดุ</h3>
+      <p class="order-id-badge" id="summaryOrderIdText">รหัสออเดอร์: #ORD-XXXXXX</p>
+
+      <div class="summary-details-box">
+        <div class="summary-row">
+          <span class="label">ผู้สั่งพัสดุ:</span>
+          <span class="val" id="sumModalUserName">-</span>
+        </div>
+        <div class="summary-row">
+          <span class="label">ผู้รับพัสดุ:</span>
+          <span class="val" id="sumModalRecipient">-</span>
+        </div>
+        <div class="summary-row highlight-row">
+          <span class="label">📍 จุดรับ (ต้นทาง):</span>
+          <span class="val" id="sumModalPickup">-</span>
+        </div>
+        <div class="summary-row highlight-row">
+          <span class="label">🏁 จุดส่ง (ปลายทาง):</span>
+          <span class="val" id="sumModalDropoff">-</span>
+        </div>
+        <div class="summary-row">
+          <span class="label">ขนาดพัสดุ:</span>
+          <span class="val" id="sumModalSize">-</span>
+        </div>
+        <div class="summary-row">
+          <span class="label">ระยะทางคำนวณได้:</span>
+          <span class="val" id="sumModalDistance">-</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-row total-summary-row">
+          <span class="label">ยอดเงินที่ต้องชำระ:</span>
+          <span class="val total-amount" id="sumModalTotal">-</span>
+        </div>
+      </div>
+
+      <div class="order-modal-actions">
+        <button type="button" class="btn btn-secondary" id="btnDismissOrderSummary">ปิดหน้าต่าง</button>
+        <button type="button" class="btn btn-primary" id="btnCallDriver">เรียกรถรับพัสดุทันที 🛵</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification สำหรับแจ้งเตือนสถานะต่างๆ -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- ลิงก์ไฟล์ JavaScript -->
+  <script src="js/script.js"></script>
+</body>
+</html>

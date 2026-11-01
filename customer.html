@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer · Delivery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Noto+Serif+Thai:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f8f6f2;--ink:#3a3532;--blue:#6f86b5;--pink:#d98aa3;--line:#d9d3c9;--tint:#eef1f8;--muted:#7a736b}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Playfair Display","Noto Serif Thai",Georgia,serif;font-size:16px;line-height:1.5}
+a{color:inherit}
+
+/* header */
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:1240px;margin:0 auto;padding:22px 40px}
+.logo{text-decoration:none;font-size:28px;line-height:1;color:var(--blue)}
+.logo b{font-weight:400;color:var(--pink)}
+.logo small{display:block;font-size:9px;letter-spacing:.16em;color:var(--muted);margin-top:4px;text-align:center}
+nav{display:flex;gap:44px;font-size:14px;font-weight:500}
+nav a{text-decoration:none}
+nav a:hover{color:var(--blue)}
+.signin{font-size:14px;font-weight:500;text-decoration:none}
+
+/* intro */
+.intro{position:relative;text-align:center;max-width:1120px;margin:0 auto;padding:54px 24px 30px;min-height:280px}
+.eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+h1{font-weight:400;font-size:clamp(28px,4.4vw,52px);letter-spacing:.02em;text-transform:uppercase;margin:14px 0 10px}
+.lead{font-size:19px;max-width:520px;margin:0 auto 22px}
+.ulink{display:inline-block;font-size:15px;text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:3px}
+.deco{position:absolute;height:auto;pointer-events:none}
+.d1{left:2%;top:18px;width:150px}
+.d2{right:7%;top:8px;width:84px}
+.d3{left:9%;bottom:-8px;width:120px}
+.d4{right:3%;bottom:0;width:120px}
+
+/* order */
+.order{display:grid;grid-template-columns:1.05fr 1fr;gap:64px;max-width:1120px;margin:34px auto 0;padding:0 40px}
+h2{font-weight:400;font-size:26px;margin:0 0 28px}
+.field{margin-bottom:26px}
+.l{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.l label i,.sizes legend i{font-style:normal;letter-spacing:.02em;text-transform:none;color:var(--muted);font-size:13px;margin-left:8px}
+.mini{font:inherit;font-size:12px;background:none;border:0;border-bottom:1px solid var(--muted);padding:0;color:var(--muted);cursor:pointer}
+.mini:hover{color:var(--blue);border-color:var(--blue)}
+.field input{width:100%;border:0;border-bottom:1px solid var(--ink);border-radius:0;background:transparent;font:inherit;padding:10px 0 8px;outline:0}
+.field input:focus{border-color:var(--blue);box-shadow:0 1px 0 var(--blue)}
+.field input::placeholder{color:#b3aca2}
+.note{font-size:13px;color:var(--muted);margin:8px 0 0;min-height:1.4em}
+
+.sizes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;border:0;padding:0;margin:0 0 28px}
+.sizes legend{padding:0;margin-bottom:12px;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.size{position:relative;cursor:pointer}
+.size input{position:absolute;opacity:0;inset:0}
+.box{display:flex;flex-direction:column;align-items:center;gap:2px;border:1px solid var(--line);padding:16px 8px;transition:border-color .3s,background .3s}
+.box img{max-height:54px;width:auto;margin-bottom:6px}
+.box b{font-size:28px;font-weight:400;line-height:1.1}
+.box small{font-size:12px;color:var(--muted)}
+.size:hover .box{border-color:var(--blue)}
+.size input:checked + .box{border-color:var(--blue);background:var(--tint)}
+.size input:focus-visible + .box{outline:2px solid var(--blue);outline-offset:3px}
+
+/* map */
+.maphead{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
+.maphead svg{width:17px;height:17px;color:var(--pink)}
+.mapframe{border:1px solid var(--line);background:#efece6}
+.mapframe iframe{width:100%;height:440px;border:0;display:block;filter:saturate(.85) sepia(.1)}
+.maphint{font-size:13px;color:var(--muted);margin:10px 0 0}
+
+/* summary */
+.summary{max-width:1120px;margin:56px auto 0;padding:0 40px}
+.sumgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;border-top:1px solid var(--ink);border-bottom:1px solid var(--line);padding:26px 0}
+.sumgrid span{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.sumgrid span i{font-style:normal;letter-spacing:.02em;text-transform:none;margin-left:6px}
+.sumgrid b{font-weight:400;font-size:26px}
+.sumgrid .total b{color:var(--blue);font-size:32px}
+.actions{display:flex;justify-content:flex-end;align-items:center;gap:22px;flex-wrap:wrap;padding:28px 0 12px}
+.msg{flex:1;font-size:15px;min-width:200px}
+.msg.err{color:#b4475f}.msg.ok{color:#4e7a5a}
+.btn{font:inherit;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:14px 34px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;text-decoration:none;transition:background .3s,color .3s,border-color .3s}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.btn.solid{background:var(--ink);color:var(--bg)}
+.btn.solid:hover{background:var(--blue);border-color:var(--blue)}
+.btn:focus-visible,.mini:focus-visible,.ulink:focus-visible,nav a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+footer{border-top:1px solid var(--line);margin-top:60px;padding:28px 40px;text-align:center;font-size:13px;color:var(--muted)}
+
+@media (max-width:900px){
+  header{padding:18px 20px}nav{display:none}
+  .deco{display:none}.intro{min-height:0;padding-top:30px}
+  .order{grid-template-columns:1fr;gap:40px;padding:0 20px}
+  .summary{padding:0 20px}.sumgrid{grid-template-columns:1fr 1fr}
+  .mapframe iframe{height:320px}
+  .actions{justify-content:stretch}.actions .btn{flex:1;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">Deli<b>very</b><small>DELIVERY SYSTEM</small></a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="index.html#services">Services</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <a class="signin" href="#">Sign in</a>
+</header>
+
+<!-- ใส่รูปตกแต่งเองได้: วางไฟล์ images/deco-1.png ... deco-4.png (ถ้าไม่มีไฟล์ รูปนั้นจะไม่แสดง) -->
+<section class="intro">
+  <img class="deco d1" src="images/deco-1.png" alt="" onerror="this.remove()">
+  <img class="deco d2" src="images/deco-2.png" alt="" onerror="this.remove()">
+  <img class="deco d3" src="images/deco-3.png" alt="" onerror="this.remove()">
+  <img class="deco d4" src="images/deco-4.png" alt="" onerror="this.remove()">
+  <div class="eyebrow">Send a parcel · Customer</div>
+  <h1>Sent with care</h1>
+  <p class="lead">Choose a size, pin the places, and we’ll carry it from their door to yours.<br>ส่งของถึงลูกค้า</p>
+  <a class="ulink" href="index.html#services">← Choose another service</a>
+</section>
+
+<main class="order">
+  <!-- left: form -->
+  <div>
+    <h2>Delivery details</h2>
+
+    <div class="field">
+      <div class="l"><label for="pickup">Pick-up point <i>จุดรับ</i></label><button type="button" class="mini" id="loc">Use my location</button></div>
+      <input id="pickup" type="text" placeholder="Address or place name" autocomplete="street-address">
+    </div>
+
+    <div class="field">
+      <div class="l"><label for="dropoff">Drop-off point <i>จุดส่ง</i></label></div>
+      <input id="dropoff" type="text" placeholder="Address or place name">
+    </div>
+
+    <div class="field">
+      <div class="l"><label for="recipient">Recipient <i>ผู้รับ</i></label></div>
+      <input id="recipient" type="text" placeholder="Name of the person receiving" autocomplete="name">
+    </div>
+
+    <!-- ใส่รูปกล่องแต่ละขนาดได้: images/size-s.png, size-m.png, size-l.png -->
+    <fieldset class="sizes">
+      <legend>Parcel size <i>ขนาดพัสดุ</i></legend>
+      <label class="size"><input type="radio" name="size" value="S"><span class="box"><img src="images/size-s.png" alt="" onerror="this.remove()"><b>S</b><small>Small</small></span></label>
+      <label class="size"><input type="radio" name="size" value="M" checked><span class="box"><img src="images/size-m.png" alt="" onerror="this.remove()"><b>M</b><small>Medium</small></span></label>
+      <label class="size"><input type="radio" name="size" value="L"><span class="box"><img src="images/size-l.png" alt="" onerror="this.remove()"><b>L</b><small>Large</small></span></label>
+    </fieldset>
+
+    <div class="field">
+      <div class="l"><label for="km">Distance (km) <i>ระยะทาง</i></label></div>
+      <input id="km" type="number" min="0" step="0.1" placeholder="Filled in automatically, or type it">
+      <p class="note" id="status"></p>
+    </div>
+  </div>
+
+  <!-- right: map -->
+  <div>
+    <div class="maphead">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+      Pin system
+    </div>
+    <div class="mapframe">
+      <iframe id="map" title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Bangkok&amp;z=11&amp;output=embed"></iframe>
+    </div>
+    <p class="maphint">Type the pick-up and drop-off points and the map shows the route.</p>
+  </div>
+</main>
+
+<section class="summary">
+  <div class="sumgrid">
+    <div><span>Selected size <i>ขนาด</i></span><b id="sSize">M</b></div>
+    <div><span>Price <i>ราคา</i></span><b id="sPrice">—</b></div>
+    <div><span>Distance <i>ระยะ</i></span><b id="sDist">—</b></div>
+    <div class="total"><span>Total <i>รวม</i></span><b id="sTotal">—</b></div>
+  </div>
+  <div class="actions">
+    <p class="msg" id="msg" role="status"></p>
+    <a class="btn" href="index.html#services">Back</a>
+    <button class="btn solid" id="confirm" type="button">Confirm order</button>
+  </div>
+</section>
+
+<footer id="contact">© Delivery System · Contact us · hello@example.com</footer>
+
+<script>
+(function () {
+  'use strict';
+  /* ===== ปรับราคาได้ตรงนี้ (บาท) ===== */
+  var PRICE = { S: 30, M: 50, L: 80 };   // ราคาตามขนาด
+  var PER_KM = 8;                         // ค่าระยะทางต่อกิโลเมตร
+  var CUR = '฿';
+
+  var $ = function (id) { return document.getElementById(id); };
+  var pick = $('pickup'), drop = $('dropoff'), rec = $('recipient'), km = $('km');
+  var map = $('map'), statusEl = $('status'), msg = $('msg');
+
+  function size() { var c = document.querySelector('input[name=size]:checked'); return c ? c.value : 'M'; }
+  function money(n) { return CUR + Math.round(n).toLocaleString('en-US'); }
+
+  function update() {
+    var s = size(), base = PRICE[s], d = parseFloat(km.value) || 0, fee = d * PER_KM;
+    $('sSize').textContent = s;
+    $('sPrice').textContent = money(base);
+    $('sDist').textContent = d ? d.toFixed(1) + ' km · ' + money(fee) : '—';
+    $('sTotal').textContent = money(base + fee);
+  }
+
+  var lastMap = '';
+  function setMap() {
+    var a = pick.value.trim(), b = drop.value.trim(), u;
+    if (a && b) u = 'https://maps.google.com/maps?saddr=' + encodeURIComponent(a) + '&daddr=' + encodeURIComponent(b) + '&output=embed';
+    else if (a || b) u = 'https://maps.google.com/maps?q=' + encodeURIComponent(a || b) + '&z=15&output=embed';
+    else return;
+    if (u !== lastMap) { lastMap = u; map.src = u; }
+  }
+
+  /* distance: free OpenStreetMap geocoder + OSRM routing; falls back to typing it by hand */
+  var coord = /^\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*$/;
+  function geocode(q) {
+    var m = q.match(coord);
+    if (m) return Promise.resolve(m[2] + ',' + m[1]);
+    return fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(q))
+      .then(function (r) { return r.json(); })
+      .then(function (j) { if (!j.length) throw new Error('not found'); return j[0].lon + ',' + j[0].lat; });
+  }
+  var token = 0;
+  function calc() {
+    var a = pick.value.trim(), b = drop.value.trim();
+    if (!a || !b) return;
+    var t = ++token;
+    statusEl.textContent = 'Calculating distance…';
+    Promise.all([geocode(a), geocode(b)])
+      .then(function (p) {
+        return fetch('https://router.project-osrm.org/route/v1/driving/' + p[0] + ';' + p[1] + '?overview=false')
+          .then(function (r) { return r.json(); });
+      })
+      .then(function (j) {
+        if (t !== token) return;
+        if (!j.routes || !j.routes[0]) throw new Error('no route');
+        km.value = (j.routes[0].distance / 1000).toFixed(1);
+        statusEl.textContent = 'Estimated from the driving route. You can edit it.';
+        update();
+      })
+      .catch(function () {
+        if (t === token) statusEl.textContent = 'Couldn’t calculate automatically. Please type the distance.';
+      });
+  }
+
+  [pick, drop].forEach(function (el) {
+    el.addEventListener('change', function () { setMap(); calc(); });
+  });
+  km.addEventListener('input', update);
+  document.querySelectorAll('input[name=size]').forEach(function (r) { r.addEventListener('change', update); });
+
+  $('loc').addEventListener('click', function () {
+    if (!navigator.geolocation) { statusEl.textContent = 'Location is not available in this browser.'; return; }
+    navigator.geolocation.getCurrentPosition(function (p) {
+      pick.value = p.coords.latitude.toFixed(5) + ', ' + p.coords.longitude.toFixed(5);
+      setMap(); calc();
+    }, function () { statusEl.textContent = 'Couldn’t get your location.'; });
+  });
+
+  $('confirm').addEventListener('click', function () {
+    if (!pick.value.trim() || !drop.value.trim() || !rec.value.trim()) {
+      msg.className = 'msg err';
+      msg.textContent = 'Please fill in the pick-up point, drop-off point and recipient.';
+      return;
+    }
+    msg.className = 'msg ok';
+    msg.textContent = 'Order received: size ' + size() + ', total ' + $('sTotal').textContent + '. (Demo only, not saved yet.)';
+  });
+
+  update();
+})();
+</script>
+</body>
+</html>
